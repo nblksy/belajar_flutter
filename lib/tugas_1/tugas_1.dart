@@ -10,7 +10,6 @@ class Tugas1Flutter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       home: ProfilSaya(),
     );
   }
@@ -28,11 +27,11 @@ class ProfilSaya extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
     
             const Text(
-              'Nabilah Lakeisha Syifa',
+              'Nama: Nabilah Lakeisha Syifa',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -43,6 +42,7 @@ class ProfilSaya extends StatelessWidget {
 
       
             Row(
+                mainAxisAlignment: MainAxisAlignment.center,
               children: const [
                 Icon(
                   Icons.location_on,
