@@ -7,9 +7,9 @@ class ProfilTokoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Ecommerce"),
+        title: Text("Nafie Shop"),
         centerTitle: true,
-        backgroundColor: Color.fromARGB(255, 255, 120, 43),
+        backgroundColor: Color.fromARGB(255, 108, 171, 243),
       ),
 
       //NO.2
@@ -18,7 +18,7 @@ class ProfilTokoPage extends StatelessWidget {
           SizedBox(height: 20),
           Center(
             child: Text(
-              "Nafie Shop",
+              "Since Februari 2026",
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
           ),
@@ -28,12 +28,13 @@ class ProfilTokoPage extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: Container(
-              padding: EdgeInsets.all(12),
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
               decoration: BoxDecoration(
                 color: Colors.blue.shade50,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(30),
               ),
               child: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(Icons.email, color: Colors.blue),
                   SizedBox(width: 10),
@@ -69,7 +70,7 @@ class ProfilTokoPage extends StatelessWidget {
                     padding: EdgeInsets.all(16),
                     margin: EdgeInsets.only(right: 8),
                     decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 12, 19, 32),
+                      color: Color.fromARGB(255, 24, 30, 43),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Column(
@@ -92,7 +93,7 @@ class ProfilTokoPage extends StatelessWidget {
                     padding: EdgeInsets.all(16),
                     margin: EdgeInsets.only(left: 8),
                     decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 255, 86, 7),
+                      color: Color.fromARGB(255, 13, 45, 75),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Column(
