@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ProfilTokoPage extends StatelessWidget {
-  const ProfilTokoPage({super.key});
+class Tugas2Flutter extends StatelessWidget {
+  const Tugas2Flutter({super.key});
 
   @override
   Widget build(BuildContext context) {
