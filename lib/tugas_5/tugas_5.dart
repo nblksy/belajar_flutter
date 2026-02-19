@@ -169,7 +169,7 @@ class _Tugas5FlutterState extends State<Tugas5Flutter> {
           });
         },
         backgroundColor: Colors.orange,
-        child: Icon(Icons.add_comment),
+        child: Icon(Icons.remove),
       ),
     );
   }
