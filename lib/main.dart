@@ -1,7 +1,8 @@
-import 'package:belajar_flutter/tugas_1/tugas_1.dart';
-import 'package:belajar_flutter/tugas_2/tugas_2.dart';
-import 'package:belajar_flutter/tugas_3/tugas_3.dart';
-import 'package:belajar_flutter/tugas_4/tugas_4.dart';
+// import 'package:belajar_flutter/tugas_1/tugas_1.dart';
+// import 'package:belajar_flutter/tugas_2/tugas_2.dart';
+// import 'package:belajar_flutter/tugas_3/tugas_3.dart';
+// import 'package:belajar_flutter/tugas_4/tugas_4.dart';
+import 'package:belajar_flutter/tugas_5/tugas_5.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Tugas 3',
+      title: 'Tugas 5',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: Tugas4Flutter(),
+      home: Tugas5Flutter(),
     );
   }
 }

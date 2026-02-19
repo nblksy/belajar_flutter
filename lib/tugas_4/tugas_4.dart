@@ -75,7 +75,7 @@ class Tugas4Flutter extends StatelessWidget {
 
           ListTile(
             leading: Icon(Icons.shopping_bag, color: Colors.orange),
-            title: Text("Dustbag UK 50X50"),
+            title: Text("Dustbag UK 50x50"),
             subtitle: Text("Harga: Rp5.000"),
             trailing: Icon(Icons.arrow_forward_ios, size: 16),
           ),
