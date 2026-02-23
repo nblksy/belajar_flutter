@@ -2,8 +2,8 @@
 // import 'package:belajar_flutter/tugas_2/tugas_2.dart';
 // import 'package:belajar_flutter/tugas_3/tugas_3.dart';
 // import 'package:belajar_flutter/tugas_4/tugas_4.dart';
-import 'package:belajar_flutter/tugas_5/tugas_5.dart';
-import 'package:belajar_flutter/tugas_6/tugas_6.dart';
+// import 'package:belajar_flutter/tugas_5/tugas_5.dart';
+import 'package:belajar_flutter/tugas_6/login.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Tugas 5',
+      title: 'Tugas 6',
       theme: ThemeData(
         // This is the theme of your application.
         //
