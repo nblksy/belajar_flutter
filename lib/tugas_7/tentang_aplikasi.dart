@@ -30,7 +30,7 @@ class TentangAplikasi extends StatelessWidget {
             Text("Pembuat: Nabilah Lakeisha Syifa"),
             Text("Versi: 1.0.0"),
           ],
-        ),
+        ), 
       ),
     );
   }

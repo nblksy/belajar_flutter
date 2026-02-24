@@ -109,9 +109,9 @@ class _Tugas7FlutterState extends State<Tugas7Flutter> {
       case 0:
         return "Syarat & Ketentuan";
       case 1:
-        return "Mode Tampilan";
+        return "Mode Gelap";
       case 2:
-        return "Pilih Kategori";
+        return "Pilih Kategori Produk";
       case 3:
         return "Tanggal Lahir";
       case 4:
