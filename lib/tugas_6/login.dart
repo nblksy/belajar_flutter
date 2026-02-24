@@ -79,9 +79,9 @@ class Tugas6Flutter extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: () {
-                    // ScaffoldMessenger.of(context).showSnackBar(
-                    //   SnackBar(content: Text("Forgot Password Clicked")),
-                    // );
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Forgot Password Success")),
+                    );
                   },
                   child: Text(
                     "Forgot Password?",
@@ -138,11 +138,9 @@ class Tugas6Flutter extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    // ScaffoldMessenger.of(context).showSnackBar(
-                    //    SnackBar(
-                    //     content: Text("Sign in with Google Clicked"),
-                    //   ),
-                    // );
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Sign in with Google Success")),
+                    );
                     // notif buat di klik
                   },
                   icon: Image.network(
