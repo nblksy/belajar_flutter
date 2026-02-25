@@ -1,5 +1,6 @@
 import 'package:belajar_flutter/tugas_7/tentang_aplikasi.dart';
 import 'package:belajar_flutter/tugas_7/tugas_7.dart';
+import 'package:belajar_flutter/tugas_9/tugas_9.dart';
 import 'package:flutter/material.dart';
 
 class Tugas8Flutter extends StatefulWidget {
@@ -19,6 +20,7 @@ class _Tugas8Flutter extends State<Tugas8Flutter> {
   final List<Widget> listWidget = [
     Tugas7Flutter(),
     TentangAplikasi(),
+    Tugas9Flutter(),
     // Text("data 3"),
     // Text("data 3"),
   ];
@@ -38,6 +40,11 @@ class _Tugas8Flutter extends State<Tugas8Flutter> {
           BottomNavigationBarItem(
             icon: Icon(Icons.info),
             label: "Tentang Aplikasi",
+            backgroundColor: Colors.blue,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: "Produk",
             backgroundColor: Colors.blue,
           ),
         ],

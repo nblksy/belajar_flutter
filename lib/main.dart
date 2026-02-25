@@ -6,9 +6,10 @@
 // import 'package:belajar_flutter/tugas_5/tugas_5.dart';
 // import 'package:belajar_flutter/tugas_6/login.dart';
 // import 'package:belajar_flutter/tugas_7/tugas_7.dart';
-import 'package:belajar_flutter/tugas_7/tentang_aplikasi.dart';
-import 'package:belajar_flutter/tugas_7/tugas_7.dart';
+// import 'package:belajar_flutter/tugas_7/tentang_aplikasi.dart';
+// import 'package:belajar_flutter/tugas_7/tugas_7.dart';
 import 'package:belajar_flutter/tugas_8/tugas_8.dart';
+// import 'package:belajar_flutter/tugas_9/tugas_9.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Tugas 7 & 8',
+      title: 'Tugas 9',
       theme: ThemeData(
         // This is the theme of your application.
         //

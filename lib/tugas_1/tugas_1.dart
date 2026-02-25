@@ -14,6 +14,8 @@ class Tugas1Flutter extends StatelessWidget {
 }
 
 class ProfilSaya extends StatelessWidget {
+  const ProfilSaya({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
