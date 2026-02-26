@@ -1,3 +1,5 @@
+import 'package:belajar_flutter/tugas_10/tugas_10.dart';
+import 'package:belajar_flutter/tugas_6/login.dart';
 import 'package:belajar_flutter/tugas_7/tentang_aplikasi.dart';
 import 'package:belajar_flutter/tugas_7/tugas_7.dart';
 import 'package:belajar_flutter/tugas_9/tugas_9.dart';
@@ -18,11 +20,11 @@ class _Tugas8Flutter extends State<Tugas8Flutter> {
   }
 
   final List<Widget> listWidget = [
+    Tugas10Flutter(),
+    Tugas6Flutter(),
     Tugas7Flutter(),
-    TentangAplikasi(),
     Tugas9Flutter(),
-    // Text("data 3"),
-    // Text("data 3"),
+    TentangAplikasi(),
   ];
 
   @override
@@ -33,19 +35,29 @@ class _Tugas8Flutter extends State<Tugas8Flutter> {
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home",
-            backgroundColor: Colors.blue,
+            icon: Icon(Icons.app_registration),
+            label: "Register",
+            backgroundColor: Color(0xffFF7043),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.info),
-            label: "Tentang Aplikasi",
-            backgroundColor: Colors.blue,
+            icon: Icon(Icons.login),
+            label: "Login",
+            backgroundColor: Color(0xff12325E),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: "Home",
+            backgroundColor: Colors.white,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_cart),
             label: "Produk",
-            backgroundColor: Colors.blue,
+            backgroundColor: Colors.white,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.info),
+            label: "Tentang Aplikasi",
+            backgroundColor: Colors.white,
           ),
         ],
         selectedItemColor: Colors.black,

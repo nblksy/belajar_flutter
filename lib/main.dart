@@ -8,8 +8,11 @@
 // import 'package:belajar_flutter/tugas_7/tugas_7.dart';
 // import 'package:belajar_flutter/tugas_7/tentang_aplikasi.dart';
 // import 'package:belajar_flutter/tugas_7/tugas_7.dart';
-import 'package:belajar_flutter/tugas_8/tugas_8.dart';
+// import 'package:belajar_flutter/tugas_10/konfirmasi_page.dart';
+// import 'package:belajar_flutter/tugas_8/tugas_8.dart';
 // import 'package:belajar_flutter/tugas_9/tugas_9.dart';
+// import 'package:belajar_flutter/tugas_10/tugas_10.dart';
+import 'package:belajar_flutter/tugas_8/tugas_8.dart';
 import 'package:flutter/material.dart';
 
 void main() {
