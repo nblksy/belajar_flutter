@@ -12,7 +12,8 @@
 // import 'package:belajar_flutter/tugas_8/tugas_8.dart';
 // import 'package:belajar_flutter/tugas_9/tugas_9.dart';
 // import 'package:belajar_flutter/tugas_10/tugas_10.dart';
-import 'package:belajar_flutter/tugas_8/tugas_8.dart';
+import 'package:belajar_flutter/tugas_11/splash_screen.dart';
+// import 'package:belajar_flutter/tugas_8/tugas_8.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Tugas 9',
       theme: ThemeData(
         // This is the theme of your application.
@@ -45,7 +47,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: Tugas8Flutter(),
+      home: SplashScreen(),
     );
   }
 }

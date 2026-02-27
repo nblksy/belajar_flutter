@@ -70,7 +70,7 @@ class _FormPendaftaranState extends State<Tugas10Flutter> {
       labelText: label,
       prefixIcon: Icon(icon),
       filled: true,
-      fillColor: Color.fromARGB(255, 245, 241, 241),
+      fillColor: Color.fromARGB(255, 236, 231, 231),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(15),
         borderSide: BorderSide.none,

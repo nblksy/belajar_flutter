@@ -1,8 +1,19 @@
-import 'package:belajar_flutter/tugas_6/home_page.dart';
+import 'package:belajar_flutter/tugas_9/tugas_9.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Tugas6Flutter extends StatelessWidget {
   const Tugas6Flutter({super.key});
+
+  Future<void> login(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("is_login", true);
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const Tugas9Flutter()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +117,7 @@ class Tugas6Flutter extends StatelessWidget {
                   onPressed: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => HomePage()),
+                      MaterialPageRoute(builder: (context) => Tugas9Flutter()),
                     );
                   },
                   child: Text(
