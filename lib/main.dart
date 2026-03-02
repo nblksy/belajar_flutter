@@ -12,8 +12,15 @@
 // import 'package:belajar_flutter/tugas_8/tugas_8.dart';
 // import 'package:belajar_flutter/tugas_9/tugas_9.dart';
 // import 'package:belajar_flutter/tugas_10/tugas_10.dart';
-import 'package:belajar_flutter/tugas_11/splash_screen.dart';
+// import 'package:belajar_flutter/tugas_11/splash_screen.dart';
+// import 'package:belajar_flutter/day15/view/cr_siswa.dart';
+// import 'package:belajar_flutter/tugas_6/login.dart';
 // import 'package:belajar_flutter/tugas_8/tugas_8.dart';
+// import 'package:belajar_flutter/tugas_9/tugas_9.dart';
+// import 'package:belajar_flutter/tugas_8/tugas_8.dart';
+import 'package:belajar_flutter/tugas_11/view/form_order.dart';
+import 'package:belajar_flutter/tugas_6/login.dart';
+import 'package:belajar_flutter/tugas_8/tugas_8.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -47,7 +54,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: SplashScreen(),
+      home: Tugas11Flutter(),
     );
   }
 }

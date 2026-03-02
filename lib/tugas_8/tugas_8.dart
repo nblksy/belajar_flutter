@@ -1,4 +1,5 @@
 import 'package:belajar_flutter/tugas_10/tugas_10.dart';
+import 'package:belajar_flutter/tugas_11/view/form_order.dart';
 import 'package:belajar_flutter/tugas_6/login.dart';
 import 'package:belajar_flutter/tugas_7/tentang_aplikasi.dart';
 import 'package:belajar_flutter/tugas_7/tugas_7.dart';
@@ -24,6 +25,7 @@ class _Tugas8Flutter extends State<Tugas8Flutter> {
     Tugas6Flutter(),
     Tugas7Flutter(),
     Tugas9Flutter(),
+    Tugas11Flutter(),
     TentangAplikasi(),
   ];
 
@@ -52,6 +54,11 @@ class _Tugas8Flutter extends State<Tugas8Flutter> {
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_cart),
             label: "Produk",
+            backgroundColor: Colors.white,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.book_online_outlined),
+            label: "Order",
             backgroundColor: Colors.white,
           ),
           BottomNavigationBarItem(
