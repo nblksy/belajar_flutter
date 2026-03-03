@@ -154,7 +154,7 @@ class _ListOrderPageState extends State<ListOrderPage> {
                 );
 
                 Navigator.pop(context);
-                await getData(); // 🔥 refresh otomatis
+                await getData();
 
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text("Order berhasil diupdate")),
@@ -191,7 +191,7 @@ class _ListOrderPageState extends State<ListOrderPage> {
 
     if (confirm == true) {
       await OrderController.deleteOrder(id);
-      await getData(); // 🔥 refresh otomatis
+      await getData();
 
       ScaffoldMessenger.of(
         context,

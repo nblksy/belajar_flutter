@@ -21,7 +21,7 @@ class OrderController {
     }
 
     return await dbs.update(
-      'orders', // ✅ FIXED
+      'orders',
       order.toMap(),
       where: 'id = ?',
       whereArgs: [order.id],
@@ -31,10 +31,6 @@ class OrderController {
   static Future<int> deleteOrder(int id) async {
     final dbs = await DBHelper.db();
 
-    return await dbs.delete(
-      'orders', // ✅ FIXED
-      where: 'id = ?',
-      whereArgs: [id],
-    );
+    return await dbs.delete('orders', where: 'id = ?', whereArgs: [id]);
   }
 }
