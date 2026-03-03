@@ -1,5 +1,5 @@
 import 'package:belajar_flutter/day15/database/sqflite.dart';
-import 'package:belajar_flutter/tugas_11/models/order_model.dart';
+import 'package:belajar_flutter/tugas_11_12/models/order_model.dart';
 
 class OrderController {
   static Future<int> insertOrder(OrderModel order) async {
