@@ -1,7 +1,6 @@
 import 'package:belajar_flutter/day15/database/siswa_controller.dart';
 import 'package:belajar_flutter/day15/models/siswa_model.dart';
 import 'package:belajar_flutter/day15/utils/decoration_form.dart';
-import 'package:belajar_flutter/day15/view/siswa_screen.dart';
 import 'package:flutter/material.dart';
 
 class CrSiswaScreen extends StatefulWidget {

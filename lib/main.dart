@@ -18,9 +18,12 @@
 // import 'package:belajar_flutter/tugas_8/tugas_8.dart';
 // import 'package:belajar_flutter/tugas_9/tugas_9.dart';
 // import 'package:belajar_flutter/tugas_8/tugas_8.dart';
-import 'package:belajar_flutter/tugas_11_12/view/form_order.dart';
-import 'package:belajar_flutter/tugas_6/login.dart';
-import 'package:belajar_flutter/tugas_8/tugas_8.dart';
+// import 'package:belajar_flutter/day15/splash_screen.dart';
+import 'package:belajar_flutter/tugas_14/views/get_character_screen.dart';
+// import 'package:belajar_flutter/tugas_6/login.dart';
+// import 'package:belajar_flutter/tugas_8/tugas_8.dart';
+// import 'package:belajar_flutter/tugas_9/tugas_9.dart';
+// import 'package:belajar_flutter/welcome_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -54,7 +57,13 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: Tugas11Flutter(),
+      home: Tugas14Flutter(),
+      // routes: {
+      //   '/welcome': (context) => const WelcomePage(),
+      //   '/login': (context) => const Tugas6Flutter(),
+      // '/tugas9': (context) => const Tugas9Flutter(),
+      // 'navbar': (context) => const Tugas8Flutter(),
+      // },
     );
   }
 }

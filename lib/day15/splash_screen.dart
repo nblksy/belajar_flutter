@@ -1,5 +1,4 @@
-import 'package:belajar_flutter/tugas_6/login.dart';
-import 'package:belajar_flutter/tugas_9/tugas_9.dart';
+import 'package:belajar_flutter/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,24 +13,23 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    checkLogin();
+    goNext();
   }
 
-  void checkLogin() async {
+  void goNext() async {
     await Future.delayed(const Duration(seconds: 3));
 
     final prefs = await SharedPreferences.getInstance();
     bool? isLogin = prefs.getBool("is_login");
 
     if (isLogin == true) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const Tugas6Flutter()),
-      );
+      // Langsung ke Tugas9Flutter kalau sudah login
+      Navigator.pushReplacementNamed(context, '/tugas9');
     } else {
+      // Kalau belum login, tampilkan WelcomePage dulu
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => const Tugas9Flutter()),
+        MaterialPageRoute(builder: (_) => const WelcomePage()),
       );
     }
   }
@@ -39,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xfffb3800),
+      backgroundColor: const Color(0xfffb3800),
       body: Center(child: Image.asset("assets/images/logo.png")),
     );
   }

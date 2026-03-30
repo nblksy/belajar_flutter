@@ -2,6 +2,7 @@ import 'package:belajar_flutter/day15/database/preference.dart';
 import 'package:belajar_flutter/day15/database/sqflite.dart';
 import 'package:belajar_flutter/day15/models/user_model.dart';
 import 'package:belajar_flutter/tugas_9/tugas_9.dart';
+import 'package:belajar_flutter/tugas_10/tugas_10.dart';
 import 'package:flutter/material.dart';
 
 class Tugas6Flutter extends StatefulWidget {
@@ -15,9 +16,7 @@ class _Tugas6FlutterState extends State<Tugas6Flutter> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  bool isValidEmail(String email) {
-    return email.endsWith("@gmail.com");
-  }
+  bool isValidEmail(String email) => email.endsWith("@gmail.com");
 
   bool isValidPassword(String password) {
     final passwordRegex = RegExp(
@@ -54,35 +53,11 @@ class _Tugas6FlutterState extends State<Tugas6Flutter> {
     }
   }
 
-  Future<void> register() async {
-    String email = emailController.text.trim();
-    String password = passwordController.text.trim();
-
-    if (!isValidEmail(email)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Email harus menggunakan @gmail.com")),
-      );
-      return;
-    }
-
-    if (!isValidPassword(password)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Password tidak memenuhi syarat")),
-      );
-      return;
-    }
-
-    try {
-      await DBHelper.registerUser(UserModel(email: email, password: password));
-
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("Pendaftaran Berhasil")));
-    } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("Pendaftaran Gagal")));
-    }
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -120,6 +95,7 @@ class _Tugas6FlutterState extends State<Tugas6Flutter> {
               ),
               const SizedBox(height: 40),
 
+              // Email
               TextField(
                 controller: emailController,
                 style: const TextStyle(color: Colors.white),
@@ -135,9 +111,9 @@ class _Tugas6FlutterState extends State<Tugas6Flutter> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 24),
 
+              // Password
               TextField(
                 controller: passwordController,
                 obscureText: true,
@@ -154,7 +130,6 @@ class _Tugas6FlutterState extends State<Tugas6Flutter> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 10),
 
               Align(
@@ -171,9 +146,9 @@ class _Tugas6FlutterState extends State<Tugas6Flutter> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 30),
 
+              // Login Button
               SizedBox(
                 width: double.infinity,
                 height: 50,
@@ -195,37 +170,37 @@ class _Tugas6FlutterState extends State<Tugas6Flutter> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 15),
 
+              // Daftar Button → pindah ke Register Page
               SizedBox(
                 width: double.infinity,
                 height: 50,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: Colors.white),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),
-                  onPressed: register,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const Tugas10Flutter()),
+                    );
+                  },
                   child: const Text(
                     "Daftar",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
-
               const SizedBox(height: 25),
 
               const Text("OR", style: TextStyle(color: Colors.white70)),
-
               const SizedBox(height: 20),
 
+              // Google Sign-in
               SizedBox(
                 width: double.infinity,
                 height: 50,
@@ -250,7 +225,6 @@ class _Tugas6FlutterState extends State<Tugas6Flutter> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 30),
             ],
           ),
