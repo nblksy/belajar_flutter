@@ -23,7 +23,6 @@ class DetailPage extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          // 🌌 BACKGROUND
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -38,11 +37,9 @@ class DetailPage extends StatelessWidget {
             ),
           ),
 
-          // 📄 CONTENT
           SingleChildScrollView(
             child: Column(
               children: [
-                // 🖼️ IMAGE + OVERLAY
                 Stack(
                   children: [
                     Image.network(
@@ -81,7 +78,6 @@ class DetailPage extends StatelessWidget {
 
                 const SizedBox(height: 20),
 
-                // 🧊 GLASS CARD
                 Container(
                   margin: const EdgeInsets.all(16),
                   padding: const EdgeInsets.all(20),
