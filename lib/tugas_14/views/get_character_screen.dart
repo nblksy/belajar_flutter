@@ -176,7 +176,7 @@ class _Tugas14FlutterState extends State<Tugas14Flutter> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true, // 🔥 biar nyatu
+      extendBodyBehindAppBar: true, 
       appBar: AppBar(
         title: const Text(
           "Rick and Morty",
