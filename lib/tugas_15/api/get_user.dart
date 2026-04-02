@@ -6,15 +6,18 @@ import 'package:belajar_flutter/tugas_15/models/get_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:belajar_flutter/day15/database/preference.dart';
 
-// class Repository {
-
-// }
 Future<GetUserModel?> getUser() async {
   var token = await PreferenceHandler.getToken();
-  final response = await http.get(
-    Uri.parse(Endpoint.register),
+  if (token == null || token.isEmpty) {
+    throw Exception("Token login tidak ditemukan");
+  }
 
-    headers: {"Accept": "application/json", "Authentication": token.toString()},
+  final response = await http.get(
+    Uri.parse(Endpoint.profile),
+    headers: {
+      "Accept": "application/json",
+      "Authorization": "Bearer $token",
+    },
   );
 
   log(response.body);

@@ -1,8 +1,8 @@
 import 'dart:convert';
-
-import 'package:belajar_flutter/tugas_15/api/endpoint.dart';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:belajar_flutter/tugas_15/api/endpoint.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -12,61 +12,92 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  final _formKey = GlobalKey<FormState>();
+
+  final nameController = TextEditingController();
   final emailController = TextEditingController();
+  final phoneController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
 
-  bool hidePassword = true;
-  bool hideConfirmPassword = true;
+  bool isObscure1 = true;
+  bool isObscure2 = true;
   bool isLoading = false;
 
-  bool isValidEmail(String email) => email.contains("@");
+  String selectedRole = "user"; // bisa diubah "admin" kalau perlu
 
-  Future<void> register(BuildContext context) async {
-    String email = emailController.text.trim();
-    String password = passwordController.text.trim();
-    String confirmPassword = confirmPasswordController.text.trim();
+  InputDecoration modernInput(String label, IconData icon) {
+    return InputDecoration(
+      labelText: label,
+      prefixIcon: Icon(icon, color: const Color(0xFFFF8A65)),
+      filled: true,
+      fillColor: Colors.white.withOpacity(0.7),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(18),
+        borderSide: BorderSide.none,
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(18),
+        borderSide: const BorderSide(color: Color(0xFFFF8A65), width: 1.5),
+      ),
+    );
+  }
 
-    if (email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
-      showMsg("Semua field wajib diisi");
-      return;
-    }
-
-    if (!isValidEmail(email)) {
-      showMsg("Format email tidak valid");
-      return;
-    }
-
-    if (password.length < 6) {
-      showMsg("Password minimal 6 karakter");
-      return;
-    }
-
-    if (password != confirmPassword) {
-      showMsg("Password tidak sama");
-      return;
-    }
+  Future<void> register() async {
+    if (!_formKey.currentState!.validate()) return;
 
     setState(() => isLoading = true);
+
+    final body = {
+      "name": nameController.text.trim(),
+      "email": emailController.text.trim().toLowerCase(),
+      "password": passwordController.text.trim(),
+      "role": selectedRole,
+      "phone": phoneController.text.trim(),
+    };
+
+    print("Sending data: ${jsonEncode(body)}");
 
     try {
       final response = await http.post(
         Uri.parse(Endpoint.register),
-        body: {"email": email, "password": password},
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: jsonEncode(body),
       );
+
+      print("Response status: ${response.statusCode}");
+      print("Response body: ${response.body}");
 
       final data = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
-        showMsg(data["message"] ?? "Register berhasil 🎉");
-
-        await Future.delayed(const Duration(milliseconds: 800));
-
-        Navigator.pop(context); // balik ke login
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            title: const Text("Berhasil 🎉"),
+            content: Text(data["message"] ?? "Register sukses"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context); // tutup dialog
+                  Navigator.pop(context); // kembali ke login
+                },
+                child: const Text("OK"),
+              ),
+            ],
+          ),
+        );
       } else {
         showMsg(data["message"] ?? "Register gagal");
       }
     } catch (e) {
+      print("Error: $e");
       showMsg("Terjadi kesalahan server");
     }
 
@@ -77,55 +108,11 @@ class _RegisterState extends State<Register> {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
   }
 
-  Widget inputField({
-    required String hint,
-    required IconData icon,
-    required TextEditingController controller,
-    bool isPassword = false,
-    bool isConfirm = false,
-  }) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 18),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.4),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: TextField(
-        controller: controller,
-        obscureText: isPassword
-            ? (isConfirm ? hideConfirmPassword : hidePassword)
-            : false,
-        decoration: InputDecoration(
-          hintText: hint,
-          prefixIcon: Icon(icon),
-          border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(vertical: 18),
-          suffixIcon: isPassword
-              ? IconButton(
-                  icon: Icon(
-                    (isConfirm ? hideConfirmPassword : hidePassword)
-                        ? Icons.visibility_off
-                        : Icons.visibility,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      if (isConfirm) {
-                        hideConfirmPassword = !hideConfirmPassword;
-                      } else {
-                        hidePassword = !hidePassword;
-                      }
-                    });
-                  },
-                )
-              : null,
-        ),
-      ),
-    );
-  }
-
   @override
   void dispose() {
+    nameController.dispose();
     emailController.dispose();
+    phoneController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
     super.dispose();
@@ -134,76 +121,145 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF7F7F9),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 60),
-
-              const Text(
-                "Create Account 🚀",
-                style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
-              ),
-
-              const SizedBox(height: 6),
-
-              const Text(
-                "Register to get started",
-                style: TextStyle(color: Colors.grey),
-              ),
-
-              const SizedBox(height: 40),
-
-              inputField(
-                hint: "Email",
-                icon: Icons.email_outlined,
-                controller: emailController,
-              ),
-
-              inputField(
-                hint: "Password",
-                icon: Icons.lock_outline,
-                controller: passwordController,
-                isPassword: true,
-              ),
-
-              inputField(
-                hint: "Confirm Password",
-                icon: Icons.lock_outline,
-                controller: confirmPasswordController,
-                isPassword: true,
-                isConfirm: true,
-              ),
-
-              const SizedBox(height: 10),
-
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: isLoading ? null : () => register(context),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
+      body: Container(
+        width: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFFFFE0D6), Color(0xFFFFB7A5)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(20),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(30),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+                child: Container(
+                  padding: const EdgeInsets.all(22),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.6),
+                    borderRadius: BorderRadius.circular(30),
+                    border: Border.all(color: Colors.white.withOpacity(0.4)),
+                  ),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        const Text(
+                          "Create Account",
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFFFF7043),
+                          ),
+                        ),
+                        const SizedBox(height: 25),
+                        TextFormField(
+                          controller: nameController,
+                          decoration: modernInput("Nama Lengkap", Icons.person),
+                          validator: (v) =>
+                              v!.isEmpty ? "Nama wajib diisi" : null,
+                        ),
+                        const SizedBox(height: 16),
+                        TextFormField(
+                          controller: emailController,
+                          decoration: modernInput("Email", Icons.email),
+                          validator: (v) {
+                            if (v!.isEmpty) return "Email wajib diisi";
+                            if (!v.contains("@")) return "Email tidak valid";
+                            return null;
+                          },
+                        ),
+                        // const SizedBox(height: 16),
+                        // TextFormField(
+                        //   controller: phoneController,
+                        //   keyboardType: TextInputType.phone,
+                        //   decoration: modernInput("Nomor HP", Icons.phone),
+                        // ),
+                        const SizedBox(height: 20),
+                        TextFormField(
+                          controller: passwordController,
+                          obscureText: isObscure1,
+                          decoration: modernInput("Password", Icons.lock)
+                              .copyWith(
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    isObscure1
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                  ),
+                                  onPressed: () =>
+                                      setState(() => isObscure1 = !isObscure1),
+                                ),
+                              ),
+                          validator: (v) {
+                            if (v!.isEmpty) return "Password wajib diisi";
+                            if (v.length < 8) return "Minimal 8 karakter";
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 16),
+                        TextFormField(
+                          controller: confirmPasswordController,
+                          obscureText: isObscure2,
+                          decoration:
+                              modernInput(
+                                "Konfirmasi Password",
+                                Icons.lock_outline,
+                              ).copyWith(
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    isObscure2
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                  ),
+                                  onPressed: () =>
+                                      setState(() => isObscure2 = !isObscure2),
+                                ),
+                              ),
+                          validator: (v) {
+                            if (v != passwordController.text) {
+                              return "Password tidak cocok";
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 25),
+                        ElevatedButton(
+                          onPressed: isLoading ? null : register,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFFFF8A65),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 16,
+                              horizontal: 40,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                          ),
+                          child: isLoading
+                              ? const CircularProgressIndicator(
+                                  color: Colors.white,
+                                )
+                              : const Text(
+                                  "Daftar",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                        ),
+                        const SizedBox(height: 12),
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text("Sudah punya akun? Login"),
+                        ),
+                      ],
                     ),
                   ),
-                  child: isLoading
-                      ? const CircularProgressIndicator(color: Colors.white)
-                      : const Text("Register"),
                 ),
               ),
-
-              const SizedBox(height: 16),
-
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text("Sudah punya akun? Login"),
-              ),
-            ],
+            ),
           ),
         ),
       ),

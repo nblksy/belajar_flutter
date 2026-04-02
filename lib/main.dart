@@ -20,7 +20,8 @@
 // import 'package:belajar_flutter/tugas_8/tugas_8.dart';
 // import 'package:belajar_flutter/day15/splash_screen.dart';
 // import 'package:belajar_flutter/tugas_10/tugas_10.dart';
-import 'package:belajar_flutter/tugas_14/views/splash_screen.dart';
+// import 'package:belajar_flutter/tugas_14/views/splash_screen.dart';
+import 'package:belajar_flutter/day15/database/preference.dart';
 import 'package:belajar_flutter/tugas_15/views/login_screen.dart';
 // import 'package:belajar_flutter/tugas_6/login.dart';
 // import 'package:belajar_flutter/tugas_6/login.dart';
@@ -29,7 +30,9 @@ import 'package:belajar_flutter/tugas_15/views/login_screen.dart';
 // import 'package:belajar_flutter/welcome_page.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await PreferenceHandler().init();
   runApp(const MyApp());
 }
 

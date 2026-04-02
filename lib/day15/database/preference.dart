@@ -1,47 +1,77 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferenceHandler {
-  //Inisialisasi Shared Preference
   static final PreferenceHandler _instance = PreferenceHandler._internal();
   late SharedPreferences _preferences;
+
   factory PreferenceHandler() => _instance;
+
   PreferenceHandler._internal();
+
   Future<void> init() async {
     _preferences = await SharedPreferences.getInstance();
   }
 
-  //Key user
   static const String _isLogin = 'isLogin';
   static const String _token = 'token';
+  static const String _name = 'name';
+  static const String _email = 'email';
+  static const String _oldEmail = 'oldEmail';
+  static const String _phone = 'phone';
+  static const String _image = 'image';
 
-  //CREATE
   Future<void> storingIsLogin(bool isLogin) async {
-    // final prefs = await SharedPreferences.getInstance();
-    _preferences.setBool(_isLogin, isLogin);
+    await _preferences.setBool(_isLogin, isLogin);
   }
 
   Future<void> storingToken(String token) async {
-    // final prefs = await SharedPreferences.getInstance();
-    _preferences.setString(_token, token);
+    await _preferences.setString(_token, token);
   }
 
-  //GET
-  static Future<bool?> getIsLogin() async {
-    final prefs = await SharedPreferences.getInstance();
+  /// 🔥 Simpan profile, update email baru tanpa hapus phone/image lama
+  Future<void> saveUserProfile({
+    required String name,
+    required String email,
+    String? phone,
+    String? image,
+  }) async {
+    final currentEmail = _preferences.getString(_email) ?? "";
+    if (currentEmail.isNotEmpty && currentEmail != email) {
+      await _preferences.setString(_oldEmail, currentEmail);
+    }
 
-    var data = prefs.getBool(_isLogin);
-    return data;
+    await _preferences.setString(_name, name);
+    await _preferences.setString(_email, email);
+
+    if (phone != null) await _preferences.setString(_phone, phone);
+    if (image != null) await _preferences.setString(_image, image);
   }
 
-  static Future<String?> getToken() async {
-    final prefs = await SharedPreferences.getInstance();
-
-    var data = prefs.getString(_token);
-    return data;
+  Future<Map<String, String>> getProfile() async {
+    return {
+      "name": _preferences.getString(_name) ?? "",
+      "email": _preferences.getString(_email) ?? "",
+      "oldEmail": _preferences.getString(_oldEmail) ?? "",
+      "phone": _preferences.getString(_phone) ?? "",
+      "image": _preferences.getString(_image) ?? "",
+    };
   }
 
-  //DELETE
-  Future<void> deleteIsLogin() async {
-    await _preferences.remove(_isLogin);
+  static Future<bool?> getIsLogin() async =>
+      (await SharedPreferences.getInstance()).getBool(_isLogin);
+
+  static Future<String?> getToken() async =>
+      (await SharedPreferences.getInstance()).getString(_token);
+
+  Future<void> deleteIsLogin() async => await _preferences.remove(_isLogin);
+
+  Future<void> deleteUserProfile() async {
+    await _preferences.remove(_name);
+    await _preferences.remove(_email);
+    await _preferences.remove(_oldEmail);
+    await _preferences.remove(_phone);
+    await _preferences.remove(_image);
   }
+
+  Future<void> clearAll() async => await _preferences.clear();
 }
