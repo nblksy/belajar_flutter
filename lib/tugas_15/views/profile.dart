@@ -48,7 +48,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       setState(() {
         imageFile = File(picked.path);
       });
-      await saveField("image"); // otomatis simpan foto
+      await saveField("image");
     }
   }
 
@@ -62,7 +62,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       labelText: label,
       prefixIcon: Icon(icon, color: const Color(0xFFFF8A65)),
       suffixIcon: IconButton(
-        icon: Icon(isEdit ? Icons.check : Icons.edit, size: 20),
+        icon: Icon(isEdit ? Icons.check : Icons.edit),
         onPressed: onSave,
       ),
       filled: true,
@@ -75,53 +75,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> saveField(String field) async {
-    final currentData = await PreferenceHandler().getProfile();
+    final data = await PreferenceHandler().getProfile();
 
-    String name = nameC.text;
-    String email = emailC.text;
-    String phone = phoneC.text;
+    await PreferenceHandler().saveUserProfile(
+      name: field == "name" ? nameC.text : data["name"] ?? "",
+      email: field == "email" ? emailC.text : data["email"] ?? "",
+      phone: field == "phone" ? phoneC.text : data["phone"] ?? "",
+      image: field == "image" ? imageFile?.path ?? "" : data["image"] ?? "",
+    );
 
-    switch (field) {
-      case "name":
-        await PreferenceHandler().saveUserProfile(
-          name: name,
-          email: currentData["email"] ?? "",
-          phone: currentData["phone"] ?? "",
-          image: currentData["image"] ?? "",
-        );
-        setState(() => editName = false);
-        break;
-      case "email":
-        await PreferenceHandler().saveUserProfile(
-          name: currentData["name"] ?? "",
-          email: email,
-          phone: currentData["phone"] ?? "",
-          image: currentData["image"] ?? "",
-        );
-        setState(() => editEmail = false);
-        break;
-      case "phone":
-        await PreferenceHandler().saveUserProfile(
-          name: currentData["name"] ?? "",
-          email: currentData["email"] ?? "",
-          phone: phone,
-          image: currentData["image"] ?? "",
-        );
-        setState(() => editPhone = false);
-        break;
-      case "image":
-        await PreferenceHandler().saveUserProfile(
-          name: currentData["name"] ?? "",
-          email: currentData["email"] ?? "",
-          phone: currentData["phone"] ?? "",
-          image: imageFile?.path ?? "",
-        );
-        break;
-    }
+    setState(() {
+      if (field == "name") editName = false;
+      if (field == "email") editEmail = false;
+      if (field == "phone") editPhone = false;
+    });
 
     ScaffoldMessenger.of(
       context,
-    ).showSnackBar(SnackBar(content: Text("$field berhasil diperbarui")));
+    ).showSnackBar(SnackBar(content: Text("$field berhasil diupdate")));
   }
 
   Future<void> saveProfile() async {
@@ -145,6 +116,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<void> deleteProfile() async {
     await PreferenceHandler().deleteUserProfile();
+
     setState(() {
       nameC.clear();
       emailC.clear();
@@ -154,9 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       editEmail = false;
       editPhone = false;
     });
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text("Profile dihapus")));
+
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (_) => const Tugas14Flutter()),
@@ -179,8 +149,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xFFFFE0D6), Color(0xFFFFB7A5)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
           ),
         ),
         child: Center(
@@ -203,47 +171,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFFFF7043),
                         ),
                       ),
                       const SizedBox(height: 20),
-                      Stack(
-                        children: [
-                          CircleAvatar(
-                            radius: 45,
-                            backgroundColor: Colors.white,
-                            backgroundImage: imageFile != null
-                                ? FileImage(imageFile!)
-                                : null,
-                            child: imageFile == null
-                                ? const Icon(Icons.person, size: 45)
-                                : null,
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: GestureDetector(
-                              onTap: pickImage,
-                              child: Container(
-                                padding: const EdgeInsets.all(6),
-                                decoration: BoxDecoration(
-                                  color: Colors.orange,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: const Icon(
-                                  Icons.camera,
-                                  size: 18,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+
+                      // FOTO
+                      GestureDetector(
+                        onTap: pickImage,
+                        child: CircleAvatar(
+                          radius: 45,
+                          backgroundImage: imageFile != null
+                              ? FileImage(imageFile!)
+                              : null,
+                          child: imageFile == null
+                              ? const Icon(Icons.person, size: 40)
+                              : null,
+                        ),
                       ),
+
                       const SizedBox(height: 20),
+
+                      // NAMA
                       TextField(
                         controller: nameC,
-                        enabled: editName,
+                        readOnly: !editName,
                         decoration: inputStyle(
                           "Nama",
                           Icons.person,
@@ -257,10 +208,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           },
                         ),
                       ),
+
                       const SizedBox(height: 16),
+
+                      // EMAIL
                       TextField(
                         controller: emailC,
-                        enabled: editEmail,
+                        readOnly: !editEmail,
                         decoration: inputStyle(
                           "Email",
                           Icons.email,
@@ -274,10 +228,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           },
                         ),
                       ),
+
                       const SizedBox(height: 16),
+
+                      // NO HP
                       TextField(
                         controller: phoneC,
-                        enabled: editPhone,
+                        readOnly: !editPhone,
                         decoration: inputStyle(
                           "No HP",
                           Icons.phone,
@@ -291,30 +248,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           },
                         ),
                       ),
+
                       const SizedBox(height: 25),
+
                       Row(
                         children: [
                           Expanded(
                             child: ElevatedButton(
                               onPressed: saveProfile,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFFFF8A65),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18),
-                                ),
-                              ),
                               child: const Text("Simpan"),
                             ),
                           ),
-                          const SizedBox(width: 12),
+                          const SizedBox(width: 10),
                           Expanded(
                             child: ElevatedButton(
                               onPressed: deleteProfile,
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.redAccent,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18),
-                                ),
+                                backgroundColor: Colors.red,
                               ),
                               child: const Text("Hapus"),
                             ),

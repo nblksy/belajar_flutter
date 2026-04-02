@@ -2,14 +2,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferenceHandler {
   static final PreferenceHandler _instance = PreferenceHandler._internal();
-  late SharedPreferences _preferences;
+  SharedPreferences? _preferences;
 
   factory PreferenceHandler() => _instance;
 
   PreferenceHandler._internal();
 
-  Future<void> init() async {
-    _preferences = await SharedPreferences.getInstance();
+  // ✅ AUTO INIT (TAMBAHAN PENTING)
+  Future<SharedPreferences> get prefs async {
+    _preferences ??= await SharedPreferences.getInstance();
+    return _preferences!;
   }
 
   static const String _isLogin = 'isLogin';
@@ -21,39 +23,50 @@ class PreferenceHandler {
   static const String _image = 'image';
 
   Future<void> storingIsLogin(bool isLogin) async {
-    await _preferences.setBool(_isLogin, isLogin);
+    final p = await prefs;
+    await p.setBool(_isLogin, isLogin);
   }
 
   Future<void> storingToken(String token) async {
-    await _preferences.setString(_token, token);
+    final p = await prefs;
+    await p.setString(_token, token);
   }
 
-  /// 🔥 Simpan profile, update email baru tanpa hapus phone/image lama
+  /// 🔥 FIX: aman untuk update sebagian field
   Future<void> saveUserProfile({
     required String name,
     required String email,
     String? phone,
     String? image,
   }) async {
-    final currentEmail = _preferences.getString(_email) ?? "";
+    final p = await prefs;
+
+    final currentEmail = p.getString(_email) ?? "";
     if (currentEmail.isNotEmpty && currentEmail != email) {
-      await _preferences.setString(_oldEmail, currentEmail);
+      await p.setString(_oldEmail, currentEmail);
     }
 
-    await _preferences.setString(_name, name);
-    await _preferences.setString(_email, email);
+    await p.setString(_name, name);
+    await p.setString(_email, email);
 
-    if (phone != null) await _preferences.setString(_phone, phone);
-    if (image != null) await _preferences.setString(_image, image);
+    if (phone != null) {
+      await p.setString(_phone, phone);
+    }
+
+    if (image != null) {
+      await p.setString(_image, image);
+    }
   }
 
   Future<Map<String, String>> getProfile() async {
+    final p = await prefs;
+
     return {
-      "name": _preferences.getString(_name) ?? "",
-      "email": _preferences.getString(_email) ?? "",
-      "oldEmail": _preferences.getString(_oldEmail) ?? "",
-      "phone": _preferences.getString(_phone) ?? "",
-      "image": _preferences.getString(_image) ?? "",
+      "name": p.getString(_name) ?? "",
+      "email": p.getString(_email) ?? "",
+      "oldEmail": p.getString(_oldEmail) ?? "",
+      "phone": p.getString(_phone) ?? "",
+      "image": p.getString(_image) ?? "",
     };
   }
 
@@ -63,15 +76,22 @@ class PreferenceHandler {
   static Future<String?> getToken() async =>
       (await SharedPreferences.getInstance()).getString(_token);
 
-  Future<void> deleteIsLogin() async => await _preferences.remove(_isLogin);
-
-  Future<void> deleteUserProfile() async {
-    await _preferences.remove(_name);
-    await _preferences.remove(_email);
-    await _preferences.remove(_oldEmail);
-    await _preferences.remove(_phone);
-    await _preferences.remove(_image);
+  Future<void> deleteIsLogin() async {
+    final p = await prefs;
+    await p.remove(_isLogin);
   }
 
-  Future<void> clearAll() async => await _preferences.clear();
+  Future<void> deleteUserProfile() async {
+    final p = await prefs;
+    await p.remove(_name);
+    await p.remove(_email);
+    await p.remove(_oldEmail);
+    await p.remove(_phone);
+    await p.remove(_image);
+  }
+
+  Future<void> clearAll() async {
+    final p = await prefs;
+    await p.clear();
+  }
 }
